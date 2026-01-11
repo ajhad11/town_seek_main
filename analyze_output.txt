@@ -1,0 +1,19 @@
+﻿Analyzing town_seek...                                          
+
+warning - Unused import: '../models/user_profile.dart' - lib\services\api_service.dart:6:8 - unused_import
+warning - Unused import: '../models/review.dart' - lib\services\api_service.dart:11:8 - unused_import
+warning - Unused import: '../models/review.dart' - lib\services\hive_service.dart:9:8 - unused_import
+   info - Statements in an if should be enclosed in a block - lib\services\hive_service.dart:162:37 - curly_braces_in_flow_control_structures
+  error - There's no constant named 'admin' in 'AppRole' - lib\services\hive_service.dart:162:52 - undefined_enum_constant
+   info - Statements in an if should be enclosed in a block - lib\services\hive_service.dart:163:45 - curly_braces_in_flow_control_structures
+  error - There's no constant named 'business' in 'AppRole' - lib\services\hive_service.dart:163:60 - undefined_enum_constant
+   info - Statements in an if should be enclosed in a block - lib\services\hive_service.dart:202:37 - curly_braces_in_flow_control_structures
+  error - There's no constant named 'admin' in 'AppRole' - lib\services\hive_service.dart:202:55 - undefined_enum_constant
+   info - Statements in an if should be enclosed in a block - lib\services\hive_service.dart:203:45 - curly_braces_in_flow_control_structures
+  error - There's no constant named 'business' in 'AppRole' - lib\services\hive_service.dart:203:63 - undefined_enum_constant
+  error - There's no constant named 'business' in 'AppRole' - lib\services\hive_service.dart:257:52 - undefined_enum_constant
+  error - There's no constant named 'admin' in 'AppRole' - lib\services\hive_service.dart:316:34 - undefined_enum_constant
+  error - There's no constant named 'business' in 'AppRole' - lib\services\hive_service.dart:321:34 - undefined_enum_constant
+  error - The method 'getBusinessReviews' isn't defined for the type 'HiveService' - lib\services\supabase_service.dart:89:30 - undefined_method
+  error - The method 'addReview' isn't defined for the type 'HiveService' - lib\services\supabase_service.dart:93:23 - undefined_method
+
