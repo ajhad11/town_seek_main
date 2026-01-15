@@ -94,3 +94,4 @@ class AppStateProvider extends ChangeNotifier {
     super.dispose();
   }
 }
+

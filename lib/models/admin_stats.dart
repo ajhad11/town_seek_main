@@ -38,3 +38,4 @@ class DailyUserCount {
 
   DailyUserCount({required this.day, required this.count});
 }
+

@@ -52,3 +52,4 @@ class _SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin
     );
   }
 }
+

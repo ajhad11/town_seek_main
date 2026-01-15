@@ -10,14 +10,14 @@ import 'package:town_seek/screens/auth/login_screen.dart';
 import 'package:town_seek/screens/auth/account_type_screen.dart';
 import 'package:town_seek/screens/auth/signup_screen.dart';
 import 'package:town_seek/screens/main/main_screen.dart';
-import 'package:town_seek/screens/admin/main_panle/super_admin_dashboard.dart';
-import 'package:town_seek/screens/admin/business/business_admin_dashboard.dart';
-import 'package:town_seek/screens/owner/shop_owner_shell.dart'; // Import New Owner Panel
+import 'package:town_seek/screens/admin/super_admin/screens/super_admin_dashboard.dart';
+import 'package:town_seek/screens/admin/business_admin/business_registration_screen.dart';
+import 'package:town_seek/screens/admin/business_admin/shop_owner_shell.dart'; // Import New Owner Panel
 import 'package:town_seek/screens/splash/splash_screen.dart';
 
-import 'package:town_seek/screens/admin/admin_login_screen.dart';
-import 'package:town_seek/screens/admin/main_panle/main_admin_dashboard.dart';
-import 'package:town_seek/screens/admin/web/access_denied_screen.dart';
+import 'package:town_seek/screens/admin/common/admin_login_screen.dart';
+import 'package:town_seek/screens/admin/super_admin/screens/main_admin_dashboard.dart';
+import 'package:town_seek/screens/admin/common/access_denied_screen.dart';
 // import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:town_seek/utils/permission_manager.dart';
@@ -119,7 +119,7 @@ class AuthGate extends ConsumerWidget {
                   return const Scaffold(body: Center(child: CircularProgressIndicator()));
                 }
                 final business = snapshot.data;
-                if (business == null) return const BusinessAdminDashboard(); // Fallback to register screen
+                if (business == null) return const BusinessRegistrationScreen(); // Fallback to register screen
                 return ShopOwnerShell(business: business);
               },
             );
@@ -137,3 +137,4 @@ class AuthGate extends ConsumerWidget {
     );
   }
 }
+

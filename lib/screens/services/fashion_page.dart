@@ -144,3 +144,4 @@ class _FashionPageState extends State<FashionPage> {
     );
   }
 }
+

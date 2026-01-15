@@ -84,3 +84,4 @@ class AccountTypeScreen extends StatelessWidget {
   }
 
 }
+

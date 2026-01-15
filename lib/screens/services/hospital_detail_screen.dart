@@ -154,3 +154,4 @@ class _DoctorTile extends StatelessWidget {
     );
   }
 }
+

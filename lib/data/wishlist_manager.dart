@@ -47,3 +47,4 @@ class WishlistManager extends ChangeNotifier {
   List<Business> get wishlistBusinesses => _cachedBusinesses;
   List<Business> get wishlist => _cachedBusinesses;
 }
+

@@ -22,3 +22,4 @@ extension AppRoleExtension on AppRole {
     }
   }
 }
+

@@ -215,3 +215,4 @@ class ShopCard extends StatelessWidget {
     );
   }
 }
+

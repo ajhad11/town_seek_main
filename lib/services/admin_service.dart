@@ -476,3 +476,4 @@ class SystemSettings {
     categories: List<String>.from(json['categories'] ?? []),
   );
 }
+

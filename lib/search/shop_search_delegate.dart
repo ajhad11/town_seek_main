@@ -105,3 +105,4 @@ class ShopSearchDelegate extends SearchDelegate {
     );
   }
 }
+

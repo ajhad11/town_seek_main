@@ -54,3 +54,4 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     );
   }
 }
+

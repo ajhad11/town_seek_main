@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:town_seek/data/user_manager.dart';
 import 'package:town_seek/screens/main/main_screen.dart';
 import 'package:town_seek/services/supabase_service.dart';
-// import 'package:town_seek/screens/admin/business/business_login_screen.dart';
-import '../admin/business/business_admin_dashboard.dart';
+// import 'package:town_seek/screens/admin/business_admin/legacy/business_login_screen.dart';
+import 'package:town_seek/screens/admin/business_admin/business_registration_screen.dart';
 import 'edit_profile_page.dart';
 import 'about_us_screen.dart';
 
@@ -230,7 +230,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const BusinessAdminDashboard(),
+                                      builder: (context) => const BusinessRegistrationScreen(),
                                     ),
                                   );
                                 },
@@ -335,3 +335,4 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+

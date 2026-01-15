@@ -26,3 +26,4 @@ class PermissionManager {
     return await permission.isGranted;
   }
 }
+

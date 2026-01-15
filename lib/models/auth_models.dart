@@ -17,3 +17,4 @@ class AppUser {
   Map<String, dynamic> toJson() => {'id': id, 'email': email};
   factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(id: json['id'], email: json['email']);
 }
+
