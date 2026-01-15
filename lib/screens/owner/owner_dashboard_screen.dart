@@ -23,7 +23,9 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
 
   Future<void> _loadData() async {
     try {
-      final statsMap = await SupabaseService.getOwnerDashboardStats(widget.shopId);
+      final statsMap = await SupabaseService.getOwnerDashboardStats(
+        widget.shopId,
+      );
       if (mounted) {
         setState(() {
           _stats = ShopStats(
@@ -36,12 +38,22 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
             revenueComparison: 0.0, // Mock
             // Using dummy chart data if real data is empty
             weeklyViews: [
-               ChartPoint('Mon', 10), ChartPoint('Tue', 20), ChartPoint('Wed', 15), 
-               ChartPoint('Thu', 30), ChartPoint('Fri', 25), ChartPoint('Sat', 40), ChartPoint('Sun', 35)
+              ChartPoint('Mon', 10),
+              ChartPoint('Tue', 20),
+              ChartPoint('Wed', 15),
+              ChartPoint('Thu', 30),
+              ChartPoint('Fri', 25),
+              ChartPoint('Sat', 40),
+              ChartPoint('Sun', 35),
             ],
             weeklyRevenue: [
-               ChartPoint('Mon', 100), ChartPoint('Tue', 200), ChartPoint('Wed', 150),
-               ChartPoint('Thu', 300), ChartPoint('Fri', 250), ChartPoint('Sat', 400), ChartPoint('Sun', 350)
+              ChartPoint('Mon', 100),
+              ChartPoint('Tue', 200),
+              ChartPoint('Wed', 150),
+              ChartPoint('Thu', 300),
+              ChartPoint('Fri', 250),
+              ChartPoint('Sat', 400),
+              ChartPoint('Sun', 350),
             ],
           );
           _isLoading = false;
@@ -54,7 +66,9 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (_isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -65,7 +79,13 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text('Shop Insights', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              title: const Text(
+                'Shop Insights',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               background: Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -85,9 +105,17 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                 children: [
                   _buildSummaryGrid(),
                   const SizedBox(height: 30),
-                  _buildChartSection('Traffic Over the Week', _stats.weeklyViews, Colors.blue),
+                  _buildChartSection(
+                    'Traffic Over the Week',
+                    _stats.weeklyViews,
+                    Colors.blue,
+                  ),
                   const SizedBox(height: 25),
-                  _buildChartSection('Revenue Performance', _stats.weeklyRevenue, Colors.green),
+                  _buildChartSection(
+                    'Revenue Performance',
+                    _stats.weeklyRevenue,
+                    Colors.green,
+                  ),
                   const SizedBox(height: 30),
                   _buildRecentOrdersHeader(),
                   const SizedBox(height: 15),
@@ -110,10 +138,30 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
       physics: const NeverScrollableScrollPhysics(),
       childAspectRatio: 1.5,
       children: [
-        _StatCard(title: 'Total Views', value: _stats.totalViews.toString(), icon: Icons.visibility, color: Colors.blue),
-        _StatCard(title: 'Wishlist', value: _stats.wishlistCount.toString(), icon: Icons.favorite, color: Colors.pink),
-        _StatCard(title: 'Orders', value: _stats.totalOrders.toString(), icon: Icons.shopping_bag, color: Colors.orange),
-        _StatCard(title: 'Revenue', value: '\$${_stats.totalRevenue.toInt()}', icon: Icons.attach_money, color: Colors.green),
+        _StatCard(
+          title: 'Total Views',
+          value: _stats.totalViews.toString(),
+          icon: Icons.visibility,
+          color: Colors.blue,
+        ),
+        _StatCard(
+          title: 'Wishlist',
+          value: _stats.wishlistCount.toString(),
+          icon: Icons.favorite,
+          color: Colors.pink,
+        ),
+        _StatCard(
+          title: 'Orders',
+          value: _stats.totalOrders.toString(),
+          icon: Icons.shopping_bag,
+          color: Colors.orange,
+        ),
+        _StatCard(
+          title: 'Revenue',
+          value: '₹${_stats.totalRevenue.toInt()}',
+          icon: Icons.currency_rupee,
+          color: Colors.green,
+        ),
       ],
     );
   }
@@ -124,12 +172,20 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10)],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 20),
           SizedBox(
             height: 200,
@@ -143,26 +199,42 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                       getTitlesWidget: (value, meta) {
                         int index = value.toInt();
                         if (index >= 0 && index < data.length) {
-                          return Text(data[index].label, style: const TextStyle(fontSize: 10));
+                          return Text(
+                            data[index].label,
+                            style: const TextStyle(fontSize: 10),
+                          );
                         }
                         return const Text('');
                       },
                     ),
                   ),
-                  leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                 ),
                 borderData: FlBorderData(show: false),
                 lineBarsData: [
                   LineChartBarData(
-                    spots: data.asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value.value)).toList(),
+                    spots: data
+                        .asMap()
+                        .entries
+                        .map((e) => FlSpot(e.key.toDouble(), e.value.value))
+                        .toList(),
                     isCurved: true,
                     color: color,
                     barWidth: 3,
                     isStrokeCapRound: true,
                     dotData: FlDotData(show: false),
-                    belowBarData: BarAreaData(show: true, color: color.withValues(alpha: 0.1)),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      color: color.withValues(alpha: 0.1),
+                    ),
                   ),
                 ],
               ),
@@ -177,7 +249,10 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text('Recent Orders', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        const Text(
+          'Recent Orders',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
         TextButton(onPressed: () {}, child: const Text('View All')),
       ],
     );
@@ -196,7 +271,12 @@ class _StatCard extends StatelessWidget {
   final IconData icon;
   final Color color;
 
-  const _StatCard({required this.title, required this.value, required this.icon, required this.color});
+  const _StatCard({
+    required this.title,
+    required this.value,
+    required this.icon,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +285,12 @@ class _StatCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10)],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,11 +300,17 @@ class _StatCard extends StatelessWidget {
             children: [
               Icon(icon, color: color, size: 20),
               const SizedBox(width: 8),
-              Text(title, style: TextStyle(color: Colors.grey[600], fontSize: 13)),
+              Text(
+                title,
+                style: TextStyle(color: Colors.grey[600], fontSize: 13),
+              ),
             ],
           ),
           const SizedBox(height: 5),
-          Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
@@ -238,25 +329,46 @@ class _OrderTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 5)],
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 5),
+        ],
       ),
       child: Row(
         children: [
-          CircleAvatar(backgroundColor: Colors.blue[50], child: const Icon(Icons.shopping_bag, size: 20, color: Colors.blue)),
+          CircleAvatar(
+            backgroundColor: Colors.blue[50],
+            child: const Icon(Icons.shopping_bag, size: 20, color: Colors.blue),
+          ),
           const SizedBox(width: 15),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Order #TS-928${index + 1}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text('2 items • \$45.00', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                Text(
+                  'Order #TS-928${index + 1}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '2 items • ₹45.00',
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                ),
               ],
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(color: Colors.orange[50], borderRadius: BorderRadius.circular(20)),
-            child: const Text('Pending', style: TextStyle(color: Colors.orange, fontSize: 10, fontWeight: FontWeight.bold)),
+            decoration: BoxDecoration(
+              color: Colors.orange[50],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: const Text(
+              'Pending',
+              style: TextStyle(
+                color: Colors.orange,
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),

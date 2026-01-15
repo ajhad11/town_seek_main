@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:town_seek/services/supabase_service.dart';
 import 'package:town_seek/models/service.dart';
 
@@ -335,7 +336,7 @@ class _BusinessServicesScreenState extends State<BusinessServicesScreen> {
                     ),
                   ),
                   Text(
-                    '\$${service.price.toStringAsFixed(2)}',
+                    '₹${service.price.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
@@ -456,8 +457,8 @@ class _BusinessServicesScreenState extends State<BusinessServicesScreen> {
                     Expanded(
                       child: _buildTextField(
                         priceController,
-                        'Price',
-                        Icons.attach_money_rounded,
+                        'Price (₹)',
+                        Icons.currency_rupee_rounded,
                         isNumber: true,
                       ),
                     ),
@@ -512,7 +513,7 @@ class _BusinessServicesScreenState extends State<BusinessServicesScreen> {
 
                       try {
                         final serviceData = Service(
-                          id: service?.id ?? '',
+                          id: service?.id ?? const Uuid().v4(),
                           businessId: widget.businessId,
                           name: nameController.text,
                           description: descriptionController.text.isEmpty

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 import 'package:town_seek/services/supabase_service.dart';
 import 'package:town_seek/models/product.dart';
 
@@ -259,14 +260,16 @@ class _BusinessProductsScreenState extends State<BusinessProductsScreen> {
                           height: 200,
                           width: double.infinity,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => _buildErrorImage(),
+                          errorBuilder: (context, error, stackTrace) =>
+                              _buildErrorImage(),
                         )
                       : Image.file(
                           File(product.imageUrl!),
                           height: 200,
                           width: double.infinity,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => _buildErrorImage(),
+                          errorBuilder: (context, error, stackTrace) =>
+                              _buildErrorImage(),
                         ),
                 ),
                 Positioned(
@@ -370,7 +373,7 @@ class _BusinessProductsScreenState extends State<BusinessProductsScreen> {
                           ),
                         ),
                         Text(
-                          '\$${product.price.toStringAsFixed(2)}',
+                          '₹${product.price.toStringAsFixed(2)}',
                           style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
@@ -495,8 +498,8 @@ class _BusinessProductsScreenState extends State<BusinessProductsScreen> {
                     Expanded(
                       child: _buildTextField(
                         priceController,
-                        'Price',
-                        Icons.attach_money_rounded,
+                        'Price (₹)',
+                        Icons.currency_rupee_rounded,
                         isNumber: true,
                       ),
                     ),
@@ -515,7 +518,9 @@ class _BusinessProductsScreenState extends State<BusinessProductsScreen> {
                 InkWell(
                   onTap: () async {
                     final picker = ImagePicker();
-                    final image = await picker.pickImage(source: ImageSource.gallery);
+                    final image = await picker.pickImage(
+                      source: ImageSource.gallery,
+                    );
                     if (image != null) {
                       setDialogState(() {
                         imageUrlController.text = image.path;
@@ -533,7 +538,7 @@ class _BusinessProductsScreenState extends State<BusinessProductsScreen> {
                               image: imageUrlController.text.startsWith('http')
                                   ? NetworkImage(imageUrlController.text)
                                   : FileImage(File(imageUrlController.text))
-                                      as ImageProvider,
+                                        as ImageProvider,
                               fit: BoxFit.cover,
                             )
                           : null,
@@ -543,9 +548,16 @@ class _BusinessProductsScreenState extends State<BusinessProductsScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.add_photo_alternate_rounded, size: 40, color: Colors.indigo),
+                                Icon(
+                                  Icons.add_photo_alternate_rounded,
+                                  size: 40,
+                                  color: Colors.indigo,
+                                ),
                                 SizedBox(height: 8),
-                                Text('Tap to add product image', style: TextStyle(color: Colors.indigo)),
+                                Text(
+                                  'Tap to add product image',
+                                  style: TextStyle(color: Colors.indigo),
+                                ),
                               ],
                             ),
                           )
@@ -558,9 +570,17 @@ class _BusinessProductsScreenState extends State<BusinessProductsScreen> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: TextButton.icon(
-                        onPressed: () => setDialogState(() => imageUrlController.clear()),
-                        icon: const Icon(Icons.delete_outline, size: 16, color: Colors.red),
-                        label: const Text('Remove', style: TextStyle(color: Colors.red)),
+                        onPressed: () =>
+                            setDialogState(() => imageUrlController.clear()),
+                        icon: const Icon(
+                          Icons.delete_outline,
+                          size: 16,
+                          color: Colors.red,
+                        ),
+                        label: const Text(
+                          'Remove',
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
                     ),
                   ),
@@ -603,7 +623,7 @@ class _BusinessProductsScreenState extends State<BusinessProductsScreen> {
 
                       try {
                         final productData = Product(
-                          id: product?.id ?? '',
+                          id: product?.id ?? const Uuid().v4(),
                           businessId: widget.businessId,
                           name: nameController.text,
                           description: descriptionController.text.isEmpty
@@ -699,6 +719,7 @@ class _BusinessProductsScreenState extends State<BusinessProductsScreen> {
       ),
     );
   }
+
   Widget _buildErrorImage() {
     return Container(
       height: 200,

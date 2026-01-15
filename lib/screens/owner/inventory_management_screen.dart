@@ -11,17 +11,20 @@ class InventoryManagementScreen extends StatefulWidget {
   const InventoryManagementScreen({super.key, required this.business});
 
   @override
-  State<InventoryManagementScreen> createState() => _InventoryManagementScreenState();
+  State<InventoryManagementScreen> createState() =>
+      _InventoryManagementScreenState();
 }
 
-class _InventoryManagementScreenState extends State<InventoryManagementScreen> with SingleTickerProviderStateMixin {
+class _InventoryManagementScreenState extends State<InventoryManagementScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<Product> _products = [];
   List<Service> _services = [];
   List<Doctor> _doctors = [];
-  
+
   bool _isLoading = true;
-  bool get _isHospital => widget.business.category?.toLowerCase().contains('hospital') ?? false;
+  bool get _isHospital =>
+      widget.business.category?.toLowerCase().contains('hospital') ?? false;
 
   @override
   void initState() {
@@ -50,7 +53,11 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
       }
     } catch (e) {
       if (mounted) {
-        UIUtils.showPopup(context, 'Error loading inventory: $e', isError: true);
+        UIUtils.showPopup(
+          context,
+          'Error loading inventory: $e',
+          isError: true,
+        );
         setState(() => _isLoading = false);
       }
     }
@@ -60,7 +67,9 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isHospital ? 'Medical Management' : 'Inventory Management'),
+        title: Text(
+          _isHospital ? 'Medical Management' : 'Inventory Management',
+        ),
         backgroundColor: const Color(0xFF2962FF),
         foregroundColor: Colors.white,
         bottom: TabBar(
@@ -80,16 +89,16 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
         onPressed: () => _showAddItemSheet(),
         child: const Icon(Icons.add, color: Colors.white),
       ),
-      body: _isLoading 
-        ? const Center(child: CircularProgressIndicator())
-        : TabBarView(
-            controller: _tabController,
-            children: [
-              _buildProductList(),
-              _buildServiceList(),
-              if (_isHospital) _buildDoctorList(),
-            ],
-          ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : TabBarView(
+              controller: _tabController,
+              children: [
+                _buildProductList(),
+                _buildServiceList(),
+                if (_isHospital) _buildDoctorList(),
+              ],
+            ),
     );
   }
 
@@ -102,11 +111,18 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
         final product = _products[index];
         return Card(
           child: ListTile(
-            leading: product.imageUrl != null 
-              ? Image.network(product.imageUrl!, width: 50, height: 50, fit: BoxFit.cover)
-              : const Icon(Icons.shopping_bag, size: 40),
+            leading: product.imageUrl != null
+                ? Image.network(
+                    product.imageUrl!,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  )
+                : const Icon(Icons.shopping_bag, size: 40),
             title: Text(product.name),
-            subtitle: Text('\$${product.price} • Stock: ${product.stockQuantity}'),
+            subtitle: Text(
+              '₹${product.price} • Stock: ${product.stockQuantity}',
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -121,7 +137,13 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
                   },
                   itemBuilder: (context) => [
                     const PopupMenuItem(value: 'edit', child: Text('Edit')),
-                    const PopupMenuItem(value: 'delete', child: Text('Delete', style: TextStyle(color: Colors.red))),
+                    const PopupMenuItem(
+                      value: 'delete',
+                      child: Text(
+                        'Delete',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -141,24 +163,36 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
         final service = _services[index];
         return Card(
           child: ListTile(
-            leading: const Icon(Icons.design_services, size: 40, color: Colors.blue),
+            leading: const Icon(
+              Icons.design_services,
+              size: 40,
+              color: Colors.blue,
+            ),
             title: Text(service.name),
-            subtitle: Text('\$${service.price} • ${service.durationMinutes} min'),
+            subtitle: Text(
+              '₹${service.price} • ${service.durationMinutes} min',
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Switch(
-                  value: service.isAvailable, 
-                  onChanged: (val) => _toggleServiceAvailability(service, val)
+                  value: service.isAvailable,
+                  onChanged: (val) => _toggleServiceAvailability(service, val),
                 ),
                 PopupMenuButton(
                   onSelected: (val) {
-                     if (val == 'edit') _showServiceDialog(service: service);
-                     if (val == 'delete') _deleteService(service.id);
+                    if (val == 'edit') _showServiceDialog(service: service);
+                    if (val == 'delete') _deleteService(service.id);
                   },
                   itemBuilder: (context) => [
                     const PopupMenuItem(value: 'edit', child: Text('Edit')),
-                    const PopupMenuItem(value: 'delete', child: Text('Delete', style: TextStyle(color: Colors.red))),
+                    const PopupMenuItem(
+                      value: 'delete',
+                      child: Text(
+                        'Delete',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -183,12 +217,15 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
             subtitle: Text(doctor.specialization),
             trailing: PopupMenuButton(
               onSelected: (val) {
-                 if (val == 'edit') _showDoctorDialog(doctor: doctor);
-                 if (val == 'delete') _deleteDoctor(doctor.id);
+                if (val == 'edit') _showDoctorDialog(doctor: doctor);
+                if (val == 'delete') _deleteDoctor(doctor.id);
               },
               itemBuilder: (context) => [
                 const PopupMenuItem(value: 'edit', child: Text('Edit')),
-                const PopupMenuItem(value: 'delete', child: Text('Delete', style: TextStyle(color: Colors.red))),
+                const PopupMenuItem(
+                  value: 'delete',
+                  child: Text('Delete', style: TextStyle(color: Colors.red)),
+                ),
               ],
             ),
           ),
@@ -205,10 +242,31 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
       builder: (context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ListTile(leading: const Icon(Icons.shopping_bag), title: const Text('Add Product'), onTap: () { Navigator.pop(context); _showProductDialog(); }),
-          ListTile(leading: const Icon(Icons.design_services), title: const Text('Add Service'), onTap: () { Navigator.pop(context); _showServiceDialog(); }),
+          ListTile(
+            leading: const Icon(Icons.shopping_bag),
+            title: const Text('Add Product'),
+            onTap: () {
+              Navigator.pop(context);
+              _showProductDialog();
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.design_services),
+            title: const Text('Add Service'),
+            onTap: () {
+              Navigator.pop(context);
+              _showServiceDialog();
+            },
+          ),
           if (_isHospital)
-            ListTile(leading: const Icon(Icons.person_add), title: const Text('Add Doctor'), onTap: () { Navigator.pop(context); _showDoctorDialog(); }),
+            ListTile(
+              leading: const Icon(Icons.person_add),
+              title: const Text('Add Doctor'),
+              onTap: () {
+                Navigator.pop(context);
+                _showDoctorDialog();
+              },
+            ),
         ],
       ),
     );
@@ -217,8 +275,10 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
   void _showProductDialog({Product? product}) {
     final nameCtrl = TextEditingController(text: product?.name);
     final priceCtrl = TextEditingController(text: product?.price.toString());
-    final stockCtrl = TextEditingController(text: product?.stockQuantity.toString() ?? '0');
-    
+    final stockCtrl = TextEditingController(
+      text: product?.stockQuantity.toString() ?? '0',
+    );
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -226,18 +286,34 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: 'Name')),
-            TextField(controller: priceCtrl, decoration: const InputDecoration(labelText: 'Price'), keyboardType: TextInputType.number),
-            TextField(controller: stockCtrl, decoration: const InputDecoration(labelText: 'Stock'), keyboardType: TextInputType.number),
+            TextField(
+              controller: nameCtrl,
+              decoration: const InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: priceCtrl,
+              decoration: const InputDecoration(labelText: 'Price'),
+              keyboardType: TextInputType.number,
+            ),
+            TextField(
+              controller: stockCtrl,
+              decoration: const InputDecoration(labelText: 'Stock'),
+              keyboardType: TextInputType.number,
+            ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () async {
               try {
                 final newProduct = Product(
-                  id: product?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+                  id:
+                      product?.id ??
+                      DateTime.now().millisecondsSinceEpoch.toString(),
                   businessId: widget.business.id,
                   name: nameCtrl.text,
                   price: double.tryParse(priceCtrl.text) ?? 0.0,
@@ -248,14 +324,16 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
                   isAvailable: product?.isAvailable ?? true,
                   createdAt: product?.createdAt ?? DateTime.now(),
                 );
-                
+
                 if (product == null) {
                   await SupabaseService.addProduct(newProduct);
                 } else {
                   await SupabaseService.updateProduct(newProduct);
                 }
                 _loadData(); // This is async fire-and-forget
-                if (context.mounted) Navigator.pop(context); // Use context.mounted
+                if (context.mounted) {
+                  Navigator.pop(context); // Use context.mounted
+                }
               } catch (e) {
                 // error
               }
@@ -269,10 +347,16 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
 
   Future<void> _toggleProductAvailability(Product product, bool val) async {
     final updated = Product(
-      id: product.id, businessId: product.businessId, name: product.name,
-      description: product.description, price: product.price,
-      imageUrl: product.imageUrl, category: product.category, stockQuantity: product.stockQuantity,
-      isAvailable: val, createdAt: product.createdAt
+      id: product.id,
+      businessId: product.businessId,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      category: product.category,
+      stockQuantity: product.stockQuantity,
+      isAvailable: val,
+      createdAt: product.createdAt,
     );
     await SupabaseService.updateProduct(updated);
     _loadData();
@@ -286,7 +370,9 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
   void _showServiceDialog({Service? service}) {
     final nameCtrl = TextEditingController(text: service?.name);
     final priceCtrl = TextEditingController(text: service?.price.toString());
-    final durationCtrl = TextEditingController(text: service?.durationMinutes.toString());
+    final durationCtrl = TextEditingController(
+      text: service?.durationMinutes.toString(),
+    );
 
     showDialog(
       context: context,
@@ -295,33 +381,49 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: 'Name')),
-            TextField(controller: priceCtrl, decoration: const InputDecoration(labelText: 'Price'), keyboardType: TextInputType.number),
-            TextField(controller: durationCtrl, decoration: const InputDecoration(labelText: 'Duration (min)'), keyboardType: TextInputType.number),
+            TextField(
+              controller: nameCtrl,
+              decoration: const InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: priceCtrl,
+              decoration: const InputDecoration(labelText: 'Price'),
+              keyboardType: TextInputType.number,
+            ),
+            TextField(
+              controller: durationCtrl,
+              decoration: const InputDecoration(labelText: 'Duration (min)'),
+              keyboardType: TextInputType.number,
+            ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () async {
-               final newService = Service(
-                 id: service?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
-                 businessId: widget.business.id,
-                 name: nameCtrl.text,
-                 price: double.tryParse(priceCtrl.text) ?? 0.0,
-                 durationMinutes: int.tryParse(durationCtrl.text) ?? 30,
-                 description: service?.description ?? '',
-                 imageUrl: service?.imageUrl,
-                 isAvailable: service?.isAvailable ?? true,
-                 createdAt: service?.createdAt ?? DateTime.now(),
-               );
-               if (service == null) {
-                 await SupabaseService.addService(newService);
-               } else {
-                 await SupabaseService.updateService(newService);
-               }
-               _loadData();
-               if(dialogContext.mounted) Navigator.pop(dialogContext);
+              final newService = Service(
+                id:
+                    service?.id ??
+                    DateTime.now().millisecondsSinceEpoch.toString(),
+                businessId: widget.business.id,
+                name: nameCtrl.text,
+                price: double.tryParse(priceCtrl.text) ?? 0.0,
+                durationMinutes: int.tryParse(durationCtrl.text) ?? 30,
+                description: service?.description ?? '',
+                imageUrl: service?.imageUrl,
+                isAvailable: service?.isAvailable ?? true,
+                createdAt: service?.createdAt ?? DateTime.now(),
+              );
+              if (service == null) {
+                await SupabaseService.addService(newService);
+              } else {
+                await SupabaseService.updateService(newService);
+              }
+              _loadData();
+              if (dialogContext.mounted) Navigator.pop(dialogContext);
             },
             child: const Text('Save'),
           ),
@@ -331,13 +433,19 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
   }
 
   Future<void> _toggleServiceAvailability(Service service, bool val) async {
-      final updated = Service(
-        id: service.id, businessId: service.businessId, name: service.name, description: service.description,
-        price: service.price, durationMinutes: service.durationMinutes, imageUrl: service.imageUrl,
-        isAvailable: val, createdAt: service.createdAt
-      );
-      await SupabaseService.updateService(updated);
-      _loadData();
+    final updated = Service(
+      id: service.id,
+      businessId: service.businessId,
+      name: service.name,
+      description: service.description,
+      price: service.price,
+      durationMinutes: service.durationMinutes,
+      imageUrl: service.imageUrl,
+      isAvailable: val,
+      createdAt: service.createdAt,
+    );
+    await SupabaseService.updateService(updated);
+    _loadData();
   }
 
   Future<void> _deleteService(String id) async {
@@ -353,7 +461,9 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
   void _showDoctorDialog({Doctor? doctor}) {
     final nameCtrl = TextEditingController(text: doctor?.name);
     final specCtrl = TextEditingController(text: doctor?.specialization);
-    final hoursCtrl = TextEditingController(text: doctor?.availability?['hours']);
+    final hoursCtrl = TextEditingController(
+      text: doctor?.availability?['hours'],
+    );
 
     showDialog(
       context: context,
@@ -362,17 +472,31 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: 'Name')),
-            TextField(controller: specCtrl, decoration: const InputDecoration(labelText: 'Specialization')),
-            TextField(controller: hoursCtrl, decoration: const InputDecoration(labelText: 'Hours')),
+            TextField(
+              controller: nameCtrl,
+              decoration: const InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: specCtrl,
+              decoration: const InputDecoration(labelText: 'Specialization'),
+            ),
+            TextField(
+              controller: hoursCtrl,
+              decoration: const InputDecoration(labelText: 'Hours'),
+            ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () async {
               final newDoctor = Doctor(
-                id: doctor?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+                id:
+                    doctor?.id ??
+                    DateTime.now().millisecondsSinceEpoch.toString(),
                 hospitalId: widget.business.id,
                 name: nameCtrl.text,
                 specialization: specCtrl.text,
@@ -381,7 +505,7 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> w
               );
               await SupabaseService.addDoctor(newDoctor);
               _loadData();
-              if(dialogContext.mounted) Navigator.pop(dialogContext);
+              if (dialogContext.mounted) Navigator.pop(dialogContext);
             },
             child: const Text('Save'),
           ),

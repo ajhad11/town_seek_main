@@ -14,9 +14,9 @@ class AdminTopBar extends StatelessWidget implements PreferredSizeWidget {
         style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
       ),
       actions: [
-        SizedBox(
-          width: 300,
-          child: Padding(
+        Flexible(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 300),
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: TextField(
               decoration: InputDecoration(

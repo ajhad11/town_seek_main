@@ -172,21 +172,31 @@ class ShopCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        if (distance != null) ...[
-                          const Icon(Icons.location_on, size: 14, color: Colors.blue),
-                          const SizedBox(width: 4),
-                          Text(distance!, style: const TextStyle(fontSize: 11, color: Colors.grey)),
-                          const SizedBox(width: 10),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          if (distance != null) ...[
+                            const Icon(Icons.location_on, size: 14, color: Colors.blue),
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                distance!,
+                                style: const TextStyle(fontSize: 11, color: Colors.grey),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                          ],
+                          if (hasParking) ...[
+                            const Icon(Icons.local_parking, size: 14, color: Colors.green),
+                            const SizedBox(width: 4),
+                            const Text("Parking", style: TextStyle(fontSize: 11, color: Colors.grey)),
+                          ],
                         ],
-                        if (hasParking) ...[
-                          const Icon(Icons.local_parking, size: 14, color: Colors.green),
-                          const SizedBox(width: 4),
-                          const Text("Parking", style: TextStyle(fontSize: 11, color: Colors.grey)),
-                        ],
-                      ],
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     Text(
                       isOpen ? "OPEN" : "CLOSED",
                       style: TextStyle(
